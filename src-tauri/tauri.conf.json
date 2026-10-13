@@ -10,6 +10,11 @@
     "frontendDist": "../../biggie_pos/dist"
   },
   "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": ["base"]
+      }
+    },
     "updater": {
       "active": true,
       "endpoints": [
