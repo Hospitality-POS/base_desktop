@@ -1,0 +1,16 @@
+{
+  "name": "base-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri",
+    "dev:frontend": "pnpm -C ../biggie_pos dev",
+    "build:frontend": "pnpm -C ../biggie_pos exec vite build",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
