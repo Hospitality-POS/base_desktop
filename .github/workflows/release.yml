@@ -13,6 +13,9 @@ on:
         description: "Release tag (e.g. v1.0.0)"
         required: true
         default: "v1.0.0"
+  repository_dispatch:
+    types:
+      - biggie-pos-updated
 
 jobs:
   # ── Step 1: create the GitHub Release once ────────────────────────────────
@@ -24,9 +27,20 @@ jobs:
     steps:
       - name: Resolve tag name
         id: resolve-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "tag=${{ github.event.inputs.tag_name }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            # biggie_pos was updated — auto-bump the patch version past the latest tag
+            LATEST=$(gh api "repos/${{ github.repository }}/tags" --paginate --jq '.[].name' \
+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+            VER="${LATEST:-v1.0.0}"; VER="${VER#v}"
+            IFS=. read -r MAJ MIN PAT <<< "$VER"
+            TAG="v$MAJ.$MIN.$((PAT + 1))"
+            echo "Auto bump: ${LATEST:-none} -> $TAG"
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
           else
             echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
