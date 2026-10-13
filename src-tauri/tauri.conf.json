@@ -1,13 +1,25 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Base",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "identifier": "com.basepoint.pos",
   "build": {
     "beforeDevCommand": "pnpm run dev:frontend",
     "devUrl": "http://localhost:5374",
     "beforeBuildCommand": "pnpm run build:frontend",
     "frontendDist": "../../biggie_pos/dist"
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://github.com/Hospitality-POS/base_desktop/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEUwODVFMjAwQjEyRDY1OEIKUldTTFpTMnhBT0tGNE5Qb2dFbUxxdHNDUG9JdTYveVVUeWpCbC9BbWF2Z0FiTmlRdXk1b0FQenoK",
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   },
   "app": {
     "windows": [
@@ -30,6 +42,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
