@@ -11,6 +11,16 @@ pub fn run() {
             }
         }))
         .plugin(tauri_plugin_deep_link::init())
+        .setup(|app| {
+            // Register base:// at runtime too — covers MSI/portable installs and
+            // repairs missing registry entries; the NSIS installer already does this.
+            #[cfg(desktop)]
+            {
+                use tauri_plugin_deep_link::DeepLinkExt;
+                app.deep_link().register_all()?;
+            }
+            Ok(())
+        })
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .run(tauri::generate_context!())
