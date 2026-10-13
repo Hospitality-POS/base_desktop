@@ -7,7 +7,7 @@
     "beforeDevCommand": "pnpm run dev:frontend",
     "devUrl": "http://localhost:5374",
     "beforeBuildCommand": "pnpm run build:frontend",
-    "frontendDist": "../biggie_pos/dist"
+    "frontendDist": "../../biggie_pos/dist"
   },
   "app": {
     "windows": [
