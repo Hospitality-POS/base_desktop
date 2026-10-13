@@ -108,13 +108,14 @@ jobs:
           token: ${{ secrets.POS_REPO_PAT || github.token }}
           path: biggie_pos
 
+      # pnpm 11 requires Node >= 22.13 (uses node:sqlite) — install Node first
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - uses: pnpm/action-setup@v4
         with:
           version: 11
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
 
       - uses: dtolnay/rust-toolchain@stable
         with:
